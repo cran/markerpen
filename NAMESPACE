@@ -1,0 +1,9 @@
+importFrom(Rcpp, evalCpp)
+importFrom(RSpectra, eigs_sym)
+importFrom(stats, cor)
+
+export(pca_pen)
+export(sort_markers)
+export(refine_markers)
+
+useDynLib(markerpen, .registration = TRUE)
