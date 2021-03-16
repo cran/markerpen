@@ -22,38 +22,43 @@ print(mat_exp[1:5, 1:5])
 load(system.file("examples", "published_markers.RData", package = "markerpen"))
 load(system.file("examples", "markers_range.RData", package = "markerpen"))
 
-## ----refine-------------------------------------------------------------------
-# Markers for astrocytes
-ast_re = refine_markers(mat_exp, markers_range$astrocytes, pub_markers$astrocytes,
-                        lambda = 0.45, w = 1.5, maxit = 500, eps = 1e-3, verbose = 0)
-# Remove selected markers from the expression matrix
-mat_rest = mat_exp[, setdiff(colnames(mat_exp), ast_re$markers)]
+## ----refine, eval=FALSE-------------------------------------------------------
+#  # Markers for astrocytes
+#  ast_re = refine_markers(mat_exp, markers_range$astrocytes, pub_markers$astrocytes,
+#                          lambda = 0.45, w = 1.5, maxit = 500, eps = 1e-3, verbose = 0)
+#  # Remove selected markers from the expression matrix
+#  mat_rest = mat_exp[, setdiff(colnames(mat_exp), ast_re$markers)]
+#  
+#  # Markers for oligodendrocytes
+#  oli_re = refine_markers(mat_rest, markers_range$oligodendrocytes, pub_markers$oligodendrocytes,
+#                          lambda = 0.45, w = 1.5, maxit = 500, eps = 1e-3, verbose = 0)
+#  mat_rest = mat_rest[, setdiff(colnames(mat_rest), oli_re$markers)]
+#  
+#  # Markers for microglia
+#  mic_re = refine_markers(mat_rest, markers_range$microglia, pub_markers$microglia,
+#                          lambda = 0.45, w = 1.5, maxit = 500, eps = 1e-3, verbose = 0)
+#  mat_rest = mat_rest[, setdiff(colnames(mat_rest), mic_re$markers)]
+#  
+#  # Markers for endothelial
+#  end_re = refine_markers(mat_rest, markers_range$endothelial, pub_markers$endothelial,
+#                          lambda = 0.45, w = 1.5, maxit = 500, eps = 1e-3, verbose = 0)
+#  mat_rest = mat_rest[, setdiff(colnames(mat_rest), end_re$markers)]
+#  
+#  # Markers for neurons
+#  neu_re = refine_markers(mat_rest, markers_range$neurons, pub_markers$neurons,
+#                          lambda = 0.45, w = 1.5, maxit = 500, eps = 1e-3, verbose = 0)
+#  
+#  # Refined markers
+#  markers_re = list(astrocytes       = ast_re$markers,
+#                    oligodendrocytes = oli_re$markers,
+#                    microglia        = mic_re$markers,
+#                    endothelial      = end_re$markers,
+#                    neurons          = neu_re$markers)
 
-# Markers for oligodendrocytes
-oli_re = refine_markers(mat_rest, markers_range$oligodendrocytes, pub_markers$oligodendrocytes,
-                        lambda = 0.45, w = 1.5, maxit = 500, eps = 1e-3, verbose = 0)
-mat_rest = mat_rest[, setdiff(colnames(mat_rest), oli_re$markers)]
-
-# Markers for microglia
-mic_re = refine_markers(mat_rest, markers_range$microglia, pub_markers$microglia,
-                        lambda = 0.45, w = 1.5, maxit = 500, eps = 1e-3, verbose = 0)
-mat_rest = mat_rest[, setdiff(colnames(mat_rest), mic_re$markers)]
-
-# Markers for endothelial
-end_re = refine_markers(mat_rest, markers_range$endothelial, pub_markers$endothelial,
-                        lambda = 0.45, w = 1.5, maxit = 500, eps = 1e-3, verbose = 0)
-mat_rest = mat_rest[, setdiff(colnames(mat_rest), end_re$markers)]
-
-# Markers for neurons
-neu_re = refine_markers(mat_rest, markers_range$neurons, pub_markers$neurons,
-                        lambda = 0.45, w = 1.5, maxit = 500, eps = 1e-3, verbose = 0)
-
-# Refined markers
-markers_re = list(astrocytes       = ast_re$markers,
-                  oligodendrocytes = oli_re$markers,
-                  microglia        = mic_re$markers,
-                  endothelial      = end_re$markers,
-                  neurons          = neu_re$markers)
+## ----precompute-refine, echo=FALSE--------------------------------------------
+# Computing the refined markers may be slow on some machines
+# So we load the pre-computed data
+load(system.file("examples", "refined_markers.RData", package = "markerpen"))
 
 ## ----order--------------------------------------------------------------------
 # Post-process selected markers
